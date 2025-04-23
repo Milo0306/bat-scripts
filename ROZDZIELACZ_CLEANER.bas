@@ -20,9 +20,9 @@ Sub SplitByIDPHAcrossSheetsWithFolderSelection()
     
     ' Inicjalizacja okna dialogowego wyboru folderu
     Set dialog = Application.FileDialog(msoFileDialogFolderPicker)
-    dialog.Title = "Wybierz folder do zapisania plików"
+    dialog.Title = "Wybierz folder do zapisania plikï¿½w"
     
-    ' Poka¿ okno dialogowe i zapisz wybran¹ œcie¿kê
+    ' Pokaï¿½ okno dialogowe i zapisz wybranï¿½ ï¿½cieï¿½kï¿½
     If dialog.Show = -1 Then
         folderPath = dialog.SelectedItems(1)
     Else
@@ -32,10 +32,10 @@ Sub SplitByIDPHAcrossSheetsWithFolderSelection()
     
     ' Kolekcja do przechowywania unikalnych ID_PH
     Set uniqueIDs = New Collection
-    employeeSheetName = "Czarnuchy"
+    employeeSheetName = "Bambiki"
     employeeSheet = Sheet(employeeSheetName)
     
-    ' Iteracja po wszystkich zak³adkach w pliku, z pominiêciem arkusza MENU
+    ' Iteracja po wszystkich zakï¿½adkach w pliku, z pominiï¿½ciem arkusza MENU
     For Each ws In ThisWorkbook.Sheets
         If ws.Name <> "MENU" Or ws.Name <> employeeSheetName Then ' Sprawdzamy, czy arkusz nie jest MENU
             ' Znajdowanie ostatniego wiersza w kolumnie A
@@ -44,7 +44,7 @@ Sub SplitByIDPHAcrossSheetsWithFolderSelection()
             
             ' Pobieranie unikalnych ID_PH w danym arkuszu
             On Error Resume Next
-            For i = 2 To lastRow ' Zak³adaj¹c, ¿e dane zaczynaj¹ siê od drugiego wiersza
+            For i = 2 To lastRow ' Zakï¿½adajï¿½c, ï¿½e dane zaczynajï¿½ siï¿½ od drugiego wiersza
                 uniqueIDs.Add ws.Cells(i, 1).Value, CStr(ws.Cells(i, 1).Value)
             Next i
             On Error GoTo 0
@@ -56,21 +56,21 @@ Sub SplitByIDPHAcrossSheetsWithFolderSelection()
         ' Tworzenie nowego skoroszytu
         Set newWorkbook = Workbooks.Add
         
-        ' Iteracja po arkuszach w pliku g³ównym, z pominiêciem arkusza MENU
+        ' Iteracja po arkuszach w pliku gï¿½ï¿½wnym, z pominiï¿½ciem arkusza MENU
         For Each ws In ThisWorkbook.Sheets
             If ws.Name <> "MENU" Then ' Sprawdzamy, czy arkusz nie jest MENU
-                ' Sprawdzenie, czy w arkuszu znajduj¹ siê dane dla danego ID_PH
+                ' Sprawdzenie, czy w arkuszu znajdujï¿½ siï¿½ dane dla danego ID_PH
                 dataFound = False
                 
-                ' Tworzenie nowego arkusza w nowym pliku tylko wtedy, gdy dane dla ID_PH s¹ obecne
+                ' Tworzenie nowego arkusza w nowym pliku tylko wtedy, gdy dane dla ID_PH sï¿½ obecne
                 Set newSheet = Nothing
                 For i = 2 To ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
                     If ws.Cells(i, 1).Value = ID Then
                         If newSheet Is Nothing Then
-                            ' Tworzenie nowego arkusza, jeœli jeszcze nie zosta³ stworzony
+                            ' Tworzenie nowego arkusza, jeï¿½li jeszcze nie zostaï¿½ stworzony
                             Set newSheet = newWorkbook.Sheets.Add
                             newSheet.Name = ws.Name ' Zachowanie nazwy arkusza
-                            ws.Rows(1).Copy Destination:=newSheet.Rows(1) ' Kopiowanie nag³ówków
+                            ws.Rows(1).Copy Destination:=newSheet.Rows(1) ' Kopiowanie nagï¿½ï¿½wkï¿½w
                         End If
                         ' Kopiowanie danych
                         newSheet.Rows(newSheet.Cells(newSheet.Rows.Count, "A").End(xlUp).Row + 1).Value = ws.Rows(i).Value
@@ -78,7 +78,7 @@ Sub SplitByIDPHAcrossSheetsWithFolderSelection()
                     End If
                 Next i
                 
-                ' Jeœli nie znaleziono danych, nie dodawaj arkusza
+                ' Jeï¿½li nie znaleziono danych, nie dodawaj arkusza
                 If Not dataFound And Not newSheet Is Nothing Then
                     newSheet.Delete
                 End If
@@ -91,7 +91,7 @@ Sub SplitByIDPHAcrossSheetsWithFolderSelection()
         newWorkbook.Close False
     Next ID
     
-    MsgBox "Podzia³ pliku zakoñczony!"
+    MsgBox "Podziaï¿½ pliku zakoï¿½czony!"
 End Sub
 
 
